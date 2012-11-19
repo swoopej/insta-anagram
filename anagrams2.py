@@ -3,11 +3,13 @@ DICT_FILE = '/usr/share/dict/words'
 
 def is_word_anagram(user_word, check_word):
 	for letter in check_word:
-		if letter in user_word:
+		index = user_word.find(letter)
+		if index != -1:
 			check_word = check_word.replace(letter, '', 1)
+			user_word = user_word.replace(letter, '', 1)
 		else:
 			return None
-	return True
+	return user_word, check_word
 
 def check_dictionary(user_word, filename):
 	file_stream = open(filename, 'r')
@@ -21,8 +23,14 @@ def check_dictionary(user_word, filename):
 def sentence_slicer(sentence):
 	word_list = sentence.split()
 	big_word = ''.join(x for x in word_list)
+	return big_word
+
+def slice_input(sentence):
+	big_word = sentence_slicer(sentence)
 	check_dictionary(big_word, DICT_FILE)
+
+
 
 if __name__ == '__main__':
 	sentence = raw_input('Enter sentence to anagram-->  ')
-	word_list = sentence_slicer(sentence)
+	word_list = slice_input(sentence)
